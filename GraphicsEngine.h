@@ -12,11 +12,15 @@
 
 #include <windef.h>
 #include <d3d11.h>
+#include <vector>
+#include <string>
 
-// a struct to define a single vertex
-struct VERTEX{FLOAT X, Y, Z; float Color[4];};
+#include "types.h"
+//#include "Scene.h"
+#include "Mesh.h"
+#include "Shader.h"
 
-class Viewport {
+class GraphicsEngine {
 public:
     void Initialize(
             HWND windowDescriptor,
@@ -28,8 +32,9 @@ public:
 
     void Destroy();
 
-    void InitGraphics();
-    void InitPipeline();
+    void LoadGraphics(Mesh *mesh);
+
+    void LoadShader(const std::string &filename, Shader *shader);
 
 private:
     IDXGISwapChain *swapChain;             // the pointer to the swap chain interface
@@ -37,10 +42,15 @@ private:
     ID3D11DeviceContext *deviceContext;    // the pointer to our Direct3D device context
     ID3D11RenderTargetView *backBuffer;    // the pointer to our back buffer
 
+//    ID3D11Buffer *pVBuffer;                // the pointer to the vertex buffer
+
     ID3D11InputLayout *pLayout;            // the pointer to the input layout
-    ID3D11VertexShader *pVS;               // the pointer to the vertex shader
-    ID3D11PixelShader *pPS;                // the pointer to the pixel shader
-    ID3D11Buffer *pVBuffer;                // the pointer to the vertex buffer
+//    ID3D11VertexShader *pVS;               // the pointer to the vertex shader
+//    ID3D11PixelShader *pPS;                // the pointer to the pixel shader
+
+//    Scene *m_scene;
+
+    std::vector<Mesh *> meshes;
 };
 
 

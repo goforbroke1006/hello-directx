@@ -1,7 +1,8 @@
 #include <windows.h>
 #include <iostream>
 
-#include "Viewport.h"
+#include "GraphicsEngine.h"
+#include "Scene.h"
 
 // define the screen resolution
 #define SCREEN_WIDTH  800
@@ -15,8 +16,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
                    LPSTR lpCmdLine,
-                   int nCmdShow)
-{
+                   int nCmdShow) {
     HWND hWnd;
     WNDCLASSEX wc;
 
@@ -49,23 +49,29 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     ShowWindow(hWnd, nCmdShow);
 
-    Viewport dxViewport{};
+    GraphicsEngine dxViewport{};
 
     // set up and initialize Direct3D
     dxViewport.Initialize(hWnd, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+    Scene scene;
+    scene.SetViewport(&dxViewport);
+
+    Mesh triangle2D{};
+    GameObject triangle{};
+    triangle.setMesh(&triangle2D);
+    scene.Append(&triangle);
+
+//    Shader petrolShader{};
+//    dxViewport.LoadShader("../shaders.shader", &petrolShader);
+
     // enter the main loop:
-
     MSG msg;
-
-    while(TRUE)
-    {
-        if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-        {
+    while (TRUE) {
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
-
-            if(msg.message == WM_QUIT)
+            if (msg.message == WM_QUIT)
                 break;
         }
 
@@ -74,22 +80,21 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     // clean up DirectX and COM
     dxViewport.Destroy();
+    scene.RemoveAll();
 
     return msg.wParam;
 }
 
 
 // this is the main message handler for the program
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    switch(message)
-    {
-        case WM_DESTROY:
-        {
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    switch (message) {
+        case WM_DESTROY: {
             PostQuitMessage(0);
             return 0;
-        } break;
+        }
+            break;
     }
 
-    return DefWindowProc (hWnd, message, wParam, lParam);
+    return DefWindowProc(hWnd, message, wParam, lParam);
 }
