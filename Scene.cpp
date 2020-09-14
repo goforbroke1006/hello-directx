@@ -16,5 +16,9 @@ void Scene::Append(GameObject *gameObject) {
 }
 
 void Scene::RemoveAll() {
-
+    for (auto go : this->m_gameObjects) {
+        if (go->getMesh()) {
+            go->getMesh()->getVertexBuffer()->Release(); // TODO: move to GraphicsEngine
+        }
+    }
 }

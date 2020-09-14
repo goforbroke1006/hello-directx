@@ -112,28 +112,18 @@ void GraphicsEngine::Destroy() {
 
 // this is the function that creates the shape to render
 void GraphicsEngine::LoadGraphics(Mesh *mesh) {
-    // create a triangle using the VERTEX struct
-//    VERTEX OurVertices[] =
-//            {
-//                    {0.0f, 0.5f, 0.0f, {1.0f, 0.0f, 0.0f, 1.0f}},
-//                    {0.45f, -0.5, 0.0f, {0.0f, 1.0f, 0.0f, 1.0f}},
-//                    {-0.45f, -0.5f, 0.0f, {0.0f, 0.0f, 1.0f, 1.0f}}
-//            };
-//    VERTEX *OurVertices = new VERTEX[3];
-//    OurVertices[0] = {0.0f, 0.5f, 0.0f, {1.0f, 0.0f, 0.0f, 1.0f}};
-//    OurVertices[1] = {0.45f, -0.5, 0.0f, {0.0f, 1.0f, 0.0f, 1.0f}};
-//    OurVertices[2] = {-0.45f, -0.5f, 0.0f, {0.0f, 0.0f, 1.0f, 1.0f}};
+    std::vector<VERTEX> vertices = mesh->getVertices();
 
-    VERTEX *OurVertices = &mesh->getVertices()[0];
+    VERTEX *verticesArr = &vertices[0];
 
     // create the vertex buffer
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd, sizeof(bd));
 
-    bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-    bd.ByteWidth = sizeof(VERTEX) * 3;             // size is the VERTEX struct * 3
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+    bd.Usage = D3D11_USAGE_DYNAMIC;                  // write access access by CPU and GPU
+    bd.ByteWidth = sizeof(VERTEX) * vertices.size(); // size is the VERTEX struct * 3
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;         // use as a vertex buffer
+    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;      // allow CPU to write in buffer
 
     device->CreateBuffer(&bd, NULL, &mesh->getVertexBuffer());       // create the buffer
 
@@ -141,8 +131,10 @@ void GraphicsEngine::LoadGraphics(Mesh *mesh) {
     // copy the vertices into the buffer
     D3D11_MAPPED_SUBRESOURCE ms;
     deviceContext->Map(mesh->getVertexBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);    // map the buffer
-    size_t vol = sizeof(*OurVertices) * 3;
-    memcpy(ms.pData, OurVertices, vol);                 // copy the data
+
+    size_t verticesBytesLength = sizeof(*verticesArr) * vertices.size();
+    memcpy(ms.pData, verticesArr, verticesBytesLength);                 // copy the data
+
     deviceContext->Unmap(mesh->getVertexBuffer(), 0);                                      // unmap the buffer
 
     meshes.push_back(mesh);
