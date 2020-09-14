@@ -130,14 +130,14 @@ void GraphicsEngine::LoadGraphics(Mesh *mesh) {
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
-    device->CreateBuffer(&bd, NULL, &mesh->pVBuffer);       // create the buffer
+    device->CreateBuffer(&bd, NULL, &mesh->getVertexBuffer());       // create the buffer
 
 
     // copy the vertices into the buffer
     D3D11_MAPPED_SUBRESOURCE ms;
-    deviceContext->Map(mesh->pVBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);    // map the buffer
+    deviceContext->Map(mesh->getVertexBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);    // map the buffer
     memcpy(ms.pData, OurVertices, sizeof(OurVertices));                 // copy the data
-    deviceContext->Unmap(mesh->pVBuffer, 0);                                      // unmap the buffer
+    deviceContext->Unmap(mesh->getVertexBuffer(), 0);                                      // unmap the buffer
 
     meshes.push_back(mesh);
 }
