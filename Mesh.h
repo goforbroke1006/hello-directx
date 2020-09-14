@@ -13,7 +13,7 @@ class Mesh {
 public:
     Mesh();
 
-    std::vector<VERTEX> getVertices() const;
+    std::vector<VERTEX> getVertices();
 
     ID3D11Buffer *&getVertexBuffer();
 

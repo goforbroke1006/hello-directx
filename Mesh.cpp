@@ -12,7 +12,7 @@ Mesh::Mesh() {
     };
 }
 
-std::vector<VERTEX> Mesh::getVertices() const {
+std::vector<VERTEX> Mesh::getVertices() {
     return this->vertices;
 }
 
