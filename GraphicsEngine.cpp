@@ -112,30 +112,32 @@ void GraphicsEngine::Destroy() {
 
 // this is the function that creates the shape to render
 void GraphicsEngine::LoadGraphics(Mesh *mesh) {
+    // create a triangle using the VERTEX struct
+    VERTEX OurVertices[] =
+            {
+                    {0.0f, 0.5f, 0.0f, {1.0f, 0.0f, 0.0f, 1.0f}},
+                    {0.45f, -0.5, 0.0f, {0.0f, 1.0f, 0.0f, 1.0f}},
+                    {-0.45f, -0.5f, 0.0f, {0.0f, 0.0f, 1.0f, 1.0f}}
+            };
+
+
     // create the vertex buffer
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd, sizeof(bd));
-
-    VERTEX OurVertexes[] = {
-            {0.0f,   0.5f,  0.0f, {1.0f, 0.0f, 0.0f, 1.0f}},
-            {0.45f,  -0.5,  0.0f, {0.0f, 1.0f, 0.0f, 1.0f}},
-            {-0.45f, -0.5f, 0.0f, {0.0f, 0.0f, 1.0f, 1.0f}}
-    };
 
     bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
     bd.ByteWidth = sizeof(VERTEX) * 3;             // size is the VERTEX struct * 3
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
-    device->CreateBuffer(&bd, nullptr, &mesh->getVertexBuffer());       // create the buffer
+    device->CreateBuffer(&bd, NULL, &mesh->pVBuffer);       // create the buffer
+
 
     // copy the vertices into the buffer
     D3D11_MAPPED_SUBRESOURCE ms;
-    deviceContext->Map(mesh->getVertexBuffer(), 0,
-                       D3D11_MAP_WRITE_DISCARD, 0, &ms); // map the buffer
-    memcpy(ms.pData, OurVertexes, sizeof(OurVertexes));                   // copy the data
-//    memcpy(ms.pData, &mesh->getVertices()[0], mesh->getVertices().size());                   // copy the data
-    deviceContext->Unmap(mesh->getVertexBuffer(), 0);           // unmap the buffer
+    deviceContext->Map(mesh->pVBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);    // map the buffer
+    memcpy(ms.pData, OurVertices, sizeof(OurVertices));                 // copy the data
+    deviceContext->Unmap(mesh->pVBuffer, 0);                                      // unmap the buffer
 
     meshes.push_back(mesh);
 }

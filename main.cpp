@@ -62,8 +62,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
     triangle.setMesh(&triangle2D);
     scene.Append(&triangle);
 
-//    Shader petrolShader{};
-//    dxViewport.LoadShader("../shaders.shader", &petrolShader);
+    Shader petrolShader{};
+    dxViewport.LoadShader("../shaders.shader", &petrolShader);
 
     // enter the main loop:
     MSG msg;

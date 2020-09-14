@@ -17,7 +17,7 @@ public:
 
     ID3D11Buffer *&getVertexBuffer();
 
-private:
+//private:
     std::vector<VERTEX> vertices;
     ID3D11Buffer *pVBuffer;
 };
