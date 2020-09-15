@@ -17,5 +17,9 @@ std::vector<VERTEX> Mesh::getVertices() {
 }
 
 ID3D11Buffer *&Mesh::getVertexBuffer() {
-    return this->pVBuffer;
+    return this->buffer;
+}
+
+Mesh::~Mesh() {
+    this->buffer->Release();
 }

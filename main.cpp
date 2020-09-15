@@ -49,13 +49,13 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     ShowWindow(hWnd, nCmdShow);
 
-    GraphicsEngine dxViewport{};
+    GraphicsEngine graphicsEngine{};
 
     // set up and initialize Direct3D
-    dxViewport.Initialize(hWnd, SCREEN_WIDTH, SCREEN_HEIGHT);
+    graphicsEngine.Initialize(hWnd, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     Scene scene;
-    scene.SetViewport(&dxViewport);
+    scene.SetViewport(&graphicsEngine);
 
     Mesh triangle2D{};
     GameObject triangle{};
@@ -63,7 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     scene.Append(&triangle);
 
     Shader petrolShader{};
-    dxViewport.LoadShader("../shaders.shader", &petrolShader);
+    graphicsEngine.LoadShader("../shaders.shader", &petrolShader);
 
     // enter the main loop:
     MSG msg;
@@ -75,11 +75,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
                 break;
         }
 
-        dxViewport.RenderFrame();
+        graphicsEngine.RenderFrame();
     }
 
     // clean up DirectX and COM
-    dxViewport.Destroy();
+    graphicsEngine.Destroy();
     scene.RemoveAll();
 
     return msg.wParam;

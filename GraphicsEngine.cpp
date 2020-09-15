@@ -98,10 +98,7 @@ void GraphicsEngine::Destroy() {
     swapChain->SetFullscreenState(FALSE, nullptr);    // switch to windowed mode
 
     // close and release all existing COM objects
-//    pLayout->Release();
-//    pVS->Release();
-//    pPS->Release();
-//    pVBuffer->Release();
+    pLayout->Release();
 
     swapChain->Release();
     backBuffer->Release();
@@ -120,22 +117,22 @@ void GraphicsEngine::LoadGraphics(Mesh *mesh) {
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd, sizeof(bd));
 
-    bd.Usage = D3D11_USAGE_DYNAMIC;                  // write access access by CPU and GPU
-    bd.ByteWidth = sizeof(VERTEX) * vertices.size(); // size is the VERTEX struct * 3
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;         // use as a vertex buffer
-    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;      // allow CPU to write in buffer
+    size_t verticesBytesWidth = sizeof(VERTEX) * vertices.size();
 
-    device->CreateBuffer(&bd, NULL, &mesh->getVertexBuffer());       // create the buffer
+    bd.Usage = D3D11_USAGE_DYNAMIC;
+    bd.ByteWidth = verticesBytesWidth;
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    device->CreateBuffer(&bd, nullptr, &mesh->getVertexBuffer());
 
 
     // copy the vertices into the buffer
     D3D11_MAPPED_SUBRESOURCE ms;
-    deviceContext->Map(mesh->getVertexBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);    // map the buffer
+    deviceContext->Map(mesh->getVertexBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
+    memcpy(ms.pData, verticesArr, verticesBytesWidth);
 
-    size_t verticesBytesLength = sizeof(*verticesArr) * vertices.size();
-    memcpy(ms.pData, verticesArr, verticesBytesLength);                 // copy the data
-
-    deviceContext->Unmap(mesh->getVertexBuffer(), 0);                                      // unmap the buffer
+    deviceContext->Unmap(mesh->getVertexBuffer(), 0);
 
     meshes.push_back(mesh);
 }
@@ -149,8 +146,8 @@ void GraphicsEngine::LoadShader(const std::string &filename, Shader *shader) {
     D3DCompileFromFile(filename.c_str(), 0, 0, "PShader", "ps_4_0", 0, 0, &PS, 0);
 
     // encapsulate both shaders into shader objects
-    device->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &shader->getVertexShader());
-    device->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &shader->getPixelShader());
+    device->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), nullptr, &shader->getVertexShader());
+    device->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), nullptr, &shader->getPixelShader());
 
     // set the shader objects
     deviceContext->VSSetShader(shader->getVertexShader(), 0, 0);

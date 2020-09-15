@@ -13,9 +13,11 @@ public:
 
     ID3D11PixelShader *&getPixelShader();
 
+    ~Shader();
+
 private:
-    ID3D11VertexShader *pVS;               // the pointer to the vertex shader
-    ID3D11PixelShader *pPS;                // the pointer to the pixel shader
+    ID3D11VertexShader *vertexShader;
+    ID3D11PixelShader *pixelShader;
 };
 
 

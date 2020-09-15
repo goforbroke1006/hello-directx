@@ -5,9 +5,14 @@
 #include "Shader.h"
 
 ID3D11VertexShader *&Shader::getVertexShader() {
-    return pVS;
+    return vertexShader;
 }
 
 ID3D11PixelShader *&Shader::getPixelShader() {
-    return pPS;
+    return pixelShader;
+}
+
+Shader::~Shader() {
+    this->vertexShader->Release();
+    this->pixelShader->Release();
 }

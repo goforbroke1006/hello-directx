@@ -17,9 +17,11 @@ public:
 
     ID3D11Buffer *&getVertexBuffer();
 
+    ~Mesh();
+
 private:
     std::vector<VERTEX> vertices;
-    ID3D11Buffer *pVBuffer;
+    ID3D11Buffer *buffer;
 };
 
 
