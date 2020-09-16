@@ -5,7 +5,7 @@
 #ifndef HELLO_DIRECTX_TYPES_H
 #define HELLO_DIRECTX_TYPES_H
 
-#include <windef.h>
+#include <windows.h>
 
 // a struct to define a single vertex
 struct VERTEX{FLOAT X, Y, Z; float Color[4];};

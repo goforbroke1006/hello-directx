@@ -10,13 +10,12 @@
 #pragma comment (lib, "d3d10.lib")
 #pragma comment (lib, "d3d11.lib")
 
-#include <windef.h>
+#include <windows.h>
 #include <d3d11.h>
 #include <vector>
 #include <string>
 
 #include "types.h"
-//#include "Scene.h"
 #include "Mesh.h"
 #include "Shader.h"
 
