@@ -63,7 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     scene.Append(&triangle);
 
     Shader petrolShader{};
-    graphicsEngine.LoadShader("../shaders.shader", &petrolShader);
+    graphicsEngine.LoadShader("C:\\Users\\GOFORBROKE\\CLionProjects\\hello-directx\\shaders.shader", &petrolShader);
 
     // enter the main loop:
     MSG msg;

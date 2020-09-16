@@ -21,5 +21,6 @@ ID3D11Buffer *&Mesh::getVertexBuffer() {
 }
 
 Mesh::~Mesh() {
-    this->buffer->Release();
+    if (this->buffer)
+        this->buffer->Release();
 }
