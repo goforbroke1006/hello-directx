@@ -5,19 +5,20 @@
 #ifndef HELLO_DIRECTX_SCENE_H
 #define HELLO_DIRECTX_SCENE_H
 
+#include "src/engine/AbstractGraphicsEngine.h"
 #include "GraphicsEngine.h"
 #include "GameObject.h"
 
 class Scene {
 public:
-    void SetViewport(GraphicsEngine *graphicsEngine);
+    void SetViewport(AbstractGraphicsEngine *graphicsEngine);
 
     void Append(GameObject *gameObject);
 
     void RemoveAll();
 
 private:
-    GraphicsEngine *m_graphicsEngine;
+    AbstractGraphicsEngine *m_graphicsEngine;
     std::vector<GameObject *> m_gameObjects;
 };
 

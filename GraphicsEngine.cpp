@@ -11,7 +11,7 @@ void GraphicsEngine::Initialize(
         UINT screenWidth,
         UINT screenHeight
 ) {
-// create a struct to hold information about the swap chain
+    // create a struct to hold information about the swap chain
     DXGI_SWAP_CHAIN_DESC scd;
 
     // clear out the struct for use
@@ -66,8 +66,6 @@ void GraphicsEngine::Initialize(
     viewport.Height = screenHeight;
 
     deviceContext->RSSetViewports(1, &viewport);
-
-//    InitPipeline();
 }
 
 // this is the function used to render a single frame

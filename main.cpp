@@ -1,7 +1,8 @@
 #include <windows.h>
 #include <iostream>
 
-#include "GraphicsEngine.h"
+#include "src/engine/GraphicsEngineFactory.h"
+//#include "GraphicsEngine.h"
 #include "Scene.h"
 
 // define the screen resolution
@@ -49,21 +50,20 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     ShowWindow(hWnd, nCmdShow);
 
-    GraphicsEngine graphicsEngine{};
+//    GraphicsEngine graphicsEngine{};
 
-    // set up and initialize Direct3D
-    graphicsEngine.Initialize(hWnd, SCREEN_WIDTH, SCREEN_HEIGHT);
+    DX11GraphicsEngine *pGraphicsEngine = GraphicsEngineFactory::buildDX11(hWnd, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
     Scene scene;
-    scene.SetViewport(&graphicsEngine);
+    scene.SetViewport(pGraphicsEngine);
 
     Mesh triangle2D{};
     GameObject triangle{};
     triangle.setMesh(&triangle2D);
     scene.Append(&triangle);
 
-    Shader petrolShader{};
-    graphicsEngine.LoadShader("../shaders.shader", &petrolShader);
+//    Shader petrolShader{};
+//    graphicsEngine.LoadShader("../shaders.shader", &petrolShader);
 
     // enter the main loop:
     MSG msg;

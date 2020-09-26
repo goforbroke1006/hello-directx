@@ -4,14 +4,17 @@
 
 #include "Scene.h"
 
-void Scene::SetViewport(GraphicsEngine *graphicsEngine) {
+void Scene::SetViewport(AbstractGraphicsEngine *graphicsEngine) {
     m_graphicsEngine = graphicsEngine;
 }
 
 void Scene::Append(GameObject *gameObject) {
-    if (gameObject->getMesh()) {
-        m_graphicsEngine->LoadGraphics(gameObject->getMesh());
-    }
+//    if (gameObject->getMesh()) {
+//        m_graphicsEngine->LoadGraphics(gameObject->getMesh());
+//    }
+    // TODO: reimplement it
+
+
     m_gameObjects.push_back(gameObject);
 }
 
